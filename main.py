@@ -2,7 +2,7 @@ from ObstacleField import ObstacleField
 from Tetromino import Tetromino
 
 SIZE = 128
-COVERAGE = 0.5
+COVERAGE = 0.7
 
 def main():
     area = SIZE ** 2

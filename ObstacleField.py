@@ -15,7 +15,7 @@ class ObstacleField:
         y = origin[1]
         for cell in tetromino.shape:
             new_x = Utils.clamp(x+cell[0], 0, self.size-1)
-            new_y = Utils.clamp(y+cell[y], 0, self.size-1)
+            new_y = Utils.clamp(y+cell[1], 0, self.size-1)
             self.field[new_x][new_y] = 1
     
     def checkForCollision(self, tetromino, origin) -> bool:
@@ -23,7 +23,7 @@ class ObstacleField:
         y = origin[1]
         for cell in tetromino.shape:
             new_x = Utils.clamp(x+cell[0], 0, self.size-1)
-            new_y = Utils.clamp(y+cell[y], 0, self.size-1)
+            new_y = Utils.clamp(y+cell[1], 0, self.size-1)
             if self.field[new_x][new_y] == 1:
                 return True
         return False
