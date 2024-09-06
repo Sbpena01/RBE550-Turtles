@@ -1,10 +1,10 @@
 from ObstacleField import ObstacleField
 from Tetromino import Tetromino
-from Cell import Cell
 from DepthFirstSearch import DepthFirstSearch as DFS
+from BreadthFirstSearch import BreadthFirstSearch as BFS
 
 SIZE = 128
-COVERAGE = 0.01
+COVERAGE = 0.3
 
 def main():
     area = SIZE ** 2
@@ -15,7 +15,7 @@ def main():
     start = (0,0)
     goal = (SIZE-1, SIZE-1)
     
-    dfs = DFS(field, start, goal)
+    bfs = BFS(field, start, goal)
     
     for i in range(num_pieces):
         attempts = 0
@@ -27,7 +27,7 @@ def main():
                 break
             attempts += 1
     
-    path = dfs.performSearch()
+    path = bfs.performSearch()
     if not path:
         print("Could not find a clear path to the goal")
     field.draw()

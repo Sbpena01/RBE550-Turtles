@@ -53,7 +53,7 @@ class ObstacleField:
     
     def draw(self) -> None:
         grid = np.zeros((self.size, self.size))
-        custom_color_map = colors.ListedColormap(['white', 'yellow', 'red', 'black'])
+        custom_color_map = colors.ListedColormap(['grey', 'white', 'red', 'black'])
         for (x,y), cell in self.field.items():
             grid[x,y] = cell.getValue()
         plt.imshow(grid, cmap=custom_color_map, interpolation=None)
