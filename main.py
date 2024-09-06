@@ -4,7 +4,7 @@ from Cell import Cell
 from DepthFirstSearch import DepthFirstSearch as DFS
 
 SIZE = 128
-COVERAGE = 0.5
+COVERAGE = 0.01
 
 def main():
     area = SIZE ** 2
@@ -26,10 +26,10 @@ def main():
                 field.placePiece(new_piece, position)
                 break
             attempts += 1
-    # field.setCell(start, 0)
-    # field.setCell(goal, 0)
     
-    dfs.generatePath()
+    path = dfs.performSearch()
+    if not path:
+        print("Could not find a clear path to the goal")
     field.draw()
 
 if __name__ == "__main__":

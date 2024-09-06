@@ -53,7 +53,7 @@ class ObstacleField:
     
     def draw(self) -> None:
         grid = np.zeros((self.size, self.size))
-        custom_color_map = colors.ListedColormap(['white', 'red', 'black'])
+        custom_color_map = colors.ListedColormap(['white', 'yellow', 'red', 'black'])
         for (x,y), cell in self.field.items():
             grid[x,y] = cell.getValue()
         plt.imshow(grid, cmap=custom_color_map, interpolation=None)
@@ -66,19 +66,20 @@ class ObstacleField:
             return True
         return False
       
-    def checkFourNeighbors(self, cell: tuple) -> list:
+    def checkFourNeighbors(self, cell: Cell) -> list:
+        cell_coordinate = cell.getCoordinate()
         possible_neighbors = [
-            (cell[0] - 1, cell[1]),  # Top
-            (cell[0] + 1, cell[1]),  # Bottom
-            (cell[0], cell[1] - 1),  # Left
-            (cell[0], cell[1] + 1),  # Right
+            (cell_coordinate[0] - 1, cell_coordinate[1]),  # Top
+            (cell_coordinate[0] + 1, cell_coordinate[1]),  # Bottom
+            (cell_coordinate[0], cell_coordinate[1] - 1),  # Left
+            (cell_coordinate[0], cell_coordinate[1] + 1),  # Right
         ]
         free_neighbors = list()
         for neighbor in possible_neighbors:
             if self.isCellOutOfField(neighbor):
                 continue
-            if self.field[neighbor[0], neighbor[1]] == 0:
-                free_neighbors.append(neighbor)
+            if self.getCell(neighbor).getValue() == FREE:
+                free_neighbors.append(self.getCell(neighbor))
         return free_neighbors
             
     
