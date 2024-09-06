@@ -1,0 +1,2 @@
+DFS:
+For each free cell discovered, create a Node object

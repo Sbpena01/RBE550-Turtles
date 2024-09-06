@@ -21,6 +21,9 @@ class ObstacleField:
     def getCell(self, coordinate):
         return self.field.get(coordinate)
     
+    def setCell(self, cell: tuple, value: int) -> None:
+        self.field[cell[0], cell[1]] = value
+    
     def placePiece(self, tetromino, origin) -> None:
         if len(origin) != 2:
             print("top_left must have 2 values to represent x and y coorindates")
@@ -55,3 +58,29 @@ class ObstacleField:
             grid[x,y] = cell.getValue()
         plt.imshow(grid, cmap=custom_color_map, interpolation=None)
         plt.show()
+        
+    def isCellOutOfField(self, cell: tuple) -> bool:
+        if cell[0] < 0 or cell[0] >= self.size:
+            return True
+        if cell[1] < 0 or cell[1] >= self.size:
+            return True
+        return False
+      
+    def checkFourNeighbors(self, cell: tuple) -> list:
+        possible_neighbors = [
+            (cell[0] - 1, cell[1]),  # Top
+            (cell[0] + 1, cell[1]),  # Bottom
+            (cell[0], cell[1] - 1),  # Left
+            (cell[0], cell[1] + 1),  # Right
+        ]
+        free_neighbors = list()
+        for neighbor in possible_neighbors:
+            if self.isCellOutOfField(neighbor):
+                continue
+            if self.field[neighbor[0], neighbor[1]] == 0:
+                free_neighbors.append(neighbor)
+        return free_neighbors
+            
+    
+    def checkEightNeighbors(self, cell: tuple) -> list:
+        pass
