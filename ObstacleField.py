@@ -1,12 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import colors
 import random
+
 import Utils
+from Cell import Cell
+
+FREE = 0
+OBSTACLE = 1
 
 class ObstacleField:
+    
     def __init__(self, size) -> None:
         self.size = size
-        self.field = np.zeros((size, size))
+        self.field = self.generateField(size)
+    
+    def generateField(self, size):
+        return {(x, y): Cell(x,y) for x in range(size) for y in range(size)}
+    
+    def getCell(self, coordinate):
+        return self.field.get(coordinate)
     
     def placePiece(self, tetromino, origin) -> None:
         if len(origin) != 2:
@@ -16,7 +29,8 @@ class ObstacleField:
         for cell in tetromino.shape:
             new_x = Utils.clamp(x+cell[0], 0, self.size-1)
             new_y = Utils.clamp(y+cell[1], 0, self.size-1)
-            self.field[new_x][new_y] = 1
+            grid_cell = self.getCell((new_x, new_y))
+            grid_cell.setValue(OBSTACLE)
     
     def checkForCollision(self, tetromino, origin) -> bool:
         x = origin[0]
@@ -24,7 +38,8 @@ class ObstacleField:
         for cell in tetromino.shape:
             new_x = Utils.clamp(x+cell[0], 0, self.size-1)
             new_y = Utils.clamp(y+cell[1], 0, self.size-1)
-            if self.field[new_x][new_y] == 1:
+            grid_cell = self.getCell((new_x, new_y))
+            if grid_cell.getValue() == OBSTACLE:
                 return True
         return False
     
@@ -34,5 +49,9 @@ class ObstacleField:
         return (x, y)
     
     def draw(self) -> None:
-        plt.imshow(self.field, cmap="binary", interpolation=None)
+        grid = np.zeros((self.size, self.size))
+        custom_color_map = colors.ListedColormap(['white', 'red', 'black'])
+        for (x,y), cell in self.field.items():
+            grid[x,y] = cell.getValue()
+        plt.imshow(grid, cmap=custom_color_map, interpolation=None)
         plt.show()
